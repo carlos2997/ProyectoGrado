@@ -6,7 +6,6 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.gridfs.GridFSBucket;
 import com.mongodb.client.gridfs.GridFSBuckets;
-import com.mongodb.client.gridfs.GridFSUploadStream;
 import com.mongodb.client.gridfs.model.GridFSDownloadByNameOptions;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import com.mongodb.client.gridfs.model.GridFSUploadOptions;
@@ -16,7 +15,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -62,7 +60,8 @@ public class Main {
 
         File file = new File("/home/carlos/Videos/Armin.mp4");
 
-        //uploadFile(file);
+        uploadFile(file);
+        
         findFilesStores();
 
         downloadFile();
