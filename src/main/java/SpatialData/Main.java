@@ -8,6 +8,6 @@ package SpatialData;
 public class Main {
     
     public static void Main(String[] args) throws Throwable{
-    
+        
     }
 }
