@@ -58,7 +58,7 @@ public class Main {
     }
 
     public static void main(String[] args) throws Throwable {
-        File f = new File("//home//carlos//Downloads//Carlos//DJI_0194.JPG");
+        File f = new File("//home//carlos//Documents//DJI_0194.JPG");
         img = new Image();
         if (f.exists()) {
             System.out.println("Si existe el archivo");
