@@ -10,10 +10,14 @@ import com.drew.imaging.jpeg.JpegProcessingException;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
+import java.awt.image.BufferedImage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -23,15 +27,13 @@ public class Main {
     
     private static Image img;
     
-    public static Double[] toDecimal(String latitude, String longitude) {
+    public static Double toDecimalResult(String degreeCoordinate) {
         try {
-            String[] lat = latitude.replaceAll("[^0-9.\\s-]", "").split(" ");
-            String[] lng = longitude.replaceAll("[^0-9.\\s-]", "").split(" ");
-            Double dlat = toDecimal(lat); 
-            Double dlng = toDecimal(lng);
-            return new Double[]{dlat, dlng};
+            String[] degree = degreeCoordinate.replaceAll("[^0-9.\\s-]", "").split(" ");
+            Double decimalConv = toDecimal(degree); 
+            return decimalConv;
         } catch(Exception ex) {
-            System.out.println(String.format("Error en el formato de las coordenadas: %s %s", new Object[]{latitude, longitude}));
+            System.out.println(String.format("Error en el formato de las coordenadas:"));
             return null;
         }
     }
@@ -58,49 +60,35 @@ public class Main {
     }
 
     public static void main(String[] args) throws Throwable {
-        File f = new File("//home//carlos//Documents//DJI_0194.JPG");
+        File f = new File("//home//carlos//Documents//fotos//IMG_170510_171014_0030_GRE.TIF");
         img = new Image();
         if (f.exists()) {
             System.out.println("Si existe el archivo");
             try {
-                Metadata metadata = JpegMetadataReader.readMetadata(f);
-                print(metadata, "Using JpegMetadataReader");
-                Double[] coord = toDecimal(img.getLatitude(), img.getLongitude());
-                System.out.println(Arrays.toString(coord));
+                BufferedImage tif = ImageIO.read(f);
+                File testpng = new File("test.png");
+                ImageIO.write(tif,"png",testpng);
+                BufferedImage tif2 = ImageIO.read(testpng);
+                File testjpg = new File("testing.jpg");
+                ImageIO.write(tif2,"jpg",testjpg);
+                Metadata metadata = JpegMetadataReader.readMetadata(testjpg);
+                extractMetada(metadata);
+                System.out.println(img);
             } catch (JpegProcessingException | IOException e) {
-                print(e);
+                System.out.println(e.getMessage());
             }
 
         } else {
             System.out.println("No existe el archivo");
         }
-
     }
     
-    private static void print(Metadata metadata, String method){
+    private static void extractMetada(Metadata metadata){
         for (Directory directory : metadata.getDirectories()) {
             for (Tag tag : directory.getTags()) {
-                if(tag.getTagName().equals("GPS Latitude")){
-                    img.setLatitude(tag.getDescription());
-                    System.out.println("    "+tag.getDescription());
-                }else if(tag.getTagName().equals("GPS Longitude")){
-                    img.setLongitude(tag.getDescription());
-                    System.out.println("    "+tag.getDescription());
-                }else if(tag.getTagName().equals("File Modified Date")){
-                    img.setModifiedDate(tag.getDescription());
-                    System.out.println("    "+tag.getDescription());
-                }else if(tag.getTagName().equals("File Size")){
-                    img.setFileSize(tag.getDescription());
-                    System.out.println("    "+tag.getDescription());
-                }else if(tag.getTagName().equals("File Name")){
-                    img.setName(tag.getDescription());
-                    System.out.println("    "+tag.getDescription());
-                }
+                System.out.println(tag);
+                System.out.println(tag.getDescription());
             }
         }
-    }
-
-    private static void print(Exception exception){
-        System.err.println("EXCEPTION: " + exception);
     }
 }

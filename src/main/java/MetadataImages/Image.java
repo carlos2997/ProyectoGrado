@@ -5,17 +5,30 @@
  */
 package MetadataImages;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  *
  * @author carlos
  */
-public class Image {
+public class Image{
     
     private String name, latitude, longitude, fileSize, modifiedDate;
+    private List<Double> coordinates;
     
     public Image(){
     }
 
+    public Image(String name, String latitude, String longitude, String fileSize, String modifiedDate, List<Double> coordinates) {
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.fileSize = fileSize;
+        this.modifiedDate = modifiedDate;
+        this.coordinates = coordinates;
+    }
+    
     public String getLatitude() {
         return latitude;
     }
@@ -56,6 +69,18 @@ public class Image {
         this.name = name;
     }
     
+    public List<Double> getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(List<Double> coordinates) {
+        this.coordinates = coordinates;
+    }
+    
+    @Override
+    public String toString(){
+        return "[name: "+name+", latitude: "+latitude+", longitud: "+longitude+", fileSize: "+fileSize+", modifiedDate: "+modifiedDate+", coordinates: "+coordinates+"]";
+    }
     
     
 }
